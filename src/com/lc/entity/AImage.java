@@ -4,13 +4,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * AImage entity. @author MyEclipse Persistence Tools
  */
-@Entity
-@Table(name = "a_image")
+@Entity(name = "A_Image")
 public class AImage extends BaseIdEntity implements java.io.Serializable {
 
     private static final long serialVersionUID = 287992536326146077L;

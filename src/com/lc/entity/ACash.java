@@ -4,13 +4,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * ACash entity. @author MyEclipse Persistence Tools
  */
-@Entity
-@Table(name = "a_cash")
+@Entity(name = "A_Cash")
 public class ACash extends BaseIdEntity implements java.io.Serializable {
 
     private static final long serialVersionUID = 8141862323803898278L;

@@ -1,15 +1,14 @@
 package com.lc.entity;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * AAccount entity. @author MyEclipse Persistence Tools
  */
-@Entity
-@Table(name = "a_account")
+@Entity(name = "A_Account")
 public class AAccount extends BaseIdEntity implements java.io.Serializable {
 
 	// Fields
