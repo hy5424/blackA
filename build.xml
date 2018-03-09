@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="ins">
+
+	<!-- check Compile env for local or jekinse -->
+	<condition property="isLocal">
+		<os family="windows" />
+	</condition>
+	<condition property="isJenkins">
+		<os family="unix" />
+	</condition>
+
+	<property name="pname" value="ins" />
+
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.7" />
+	<property name="source" value="1.7" />
+
+	<property name="dist" value="target" />
+	<property name="web-dir" value="WebRoot" />
+	<property name="build-dependency-lib" value="build-dependency-lib" />
+
+	<property name="local-tomcat-home" value="D:/tomcat/7.0.68" />
+	<property name="jenkins-tomcat-home" value="/usr/local/share/apache-tomcat-7.0.72" />
+
+	<path id="project.classpath">
+		<!-- project classes -->
+		<pathelement location="${web-dir}/WEB-INF/classes" />
+
+		<!-- project lib -->
+		<fileset dir="${web-dir}/WEB-INF/lib">
+			<include name="*.jar" />
+			<exclude name="servlet-api-2.5.jar" />
+		</fileset>
+
+		<!-- build dependency ext-lib -->
+		<fileset dir="${build-dependency-lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="init">
+		<mkdir dir="${web-dir}/WEB-INF/classes" />
+		<mkdir dir="${dist}" />
+		<mkdir dir="${build-dependency-lib}" />
+
+		<copy includeemptydirs="false" todir="${web-dir}/WEB-INF/classes">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy includeemptydirs="false" todir="${web-dir}/WEB-INF/classes">
+			<fileset dir="config">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- 根据操作系统（本地windows，集成环境：linux-jenkins）嵌入外部jar包 -->
+	<target depends="init" name="doLocal" if="isLocal">
+		<echo message="[Local] env copy dependency libs to build dir." />
+		<copy includeemptydirs="false" todir="${build-dependency-lib}">
+			<fileset dir="${local-tomcat-home}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target depends="init" name="doJenkins" if="isJenkins">
+		<echo message="[Jenkins] env copy dependency libs to build dir." />
+		<copy includeemptydirs="false" todir="${build-dependency-lib}">
+			<fileset dir="${jenkins-tomcat-home}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean">
+		<delete dir="${web-dir}/WEB-INF/classes" />
+		<delete dir="${dist}" />
+		<delete dir="${build-dependency-lib}" />
+	</target>
+
+	<target depends="init,doLocal,doJenkins" name="build">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${web-dir}/WEB-INF/classes" includeantruntime="false" source="${source}" target="${target}" encoding="UTF-8">
+			<src path="src" />
+			<src path="config" />
+			<classpath refid="project.classpath" />
+		</javac>
+
+		<echo message="向build目录复制生产配置文件..." />
+		<copy includeemptydirs="false" todir="${web-dir}/WEB-INF/classes" overwrite="true">
+			<fileset dir="prodCfg">
+				<exclude name="**/*.launch" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<echo message="build war ......" />
+		<war duplicate="preserve" destfile="${dist}/${pname}.war" webxml="${web-dir}/WEB-INF/web.xml" basedir="${web-dir}/">
+		</war>
+
+	</target>
+
+</project>

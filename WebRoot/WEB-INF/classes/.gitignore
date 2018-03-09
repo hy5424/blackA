@@ -1,0 +1,7 @@
+/com/
+/log4j.properties
+/orgs.properties
+/server.properties
+/spring-context.xml
+/spring-hibernate.xml
+/spring-mvc.xml
