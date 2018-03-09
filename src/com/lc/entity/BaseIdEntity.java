@@ -15,7 +15,7 @@ public class BaseIdEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(generator = "IdWorker")
-	@GenericGenerator(name = "IdWorker", strategy = "com.lc.web.base.entity.IdWorker")
+	@GenericGenerator(name = "IdWorker", strategy = "com.lc.entity.IdWorker")
 	public Long getId() {
 		return id;
 	}
