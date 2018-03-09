@@ -12733,7 +12733,7 @@ module.exports = new Schema({
     require('./core')
   ],
   implicit: [
-    require('../type/timestamp'),
+    require('../type/Date'),
     require('../type/merge')
   ],
   explicit: [
@@ -12744,7 +12744,7 @@ module.exports = new Schema({
   ]
 });
 
-},{"../schema":26,"../type/binary":33,"../type/merge":41,"../type/omap":43,"../type/pairs":44,"../type/set":46,"../type/timestamp":48,"./core":27}],30:[function(require,module,exports){
+},{"../schema":26,"../type/binary":33,"../type/merge":41,"../type/omap":43,"../type/pairs":44,"../type/set":46,"../type/Date":48,"./core":27}],30:[function(require,module,exports){
 // Standard YAML's Failsafe schema.
 // http://www.yaml.org/spec/1.2/spec.html#id2802346
 
@@ -13704,7 +13704,7 @@ var YAML_DATE_REGEXP = new RegExp(
   '-([0-9][0-9])'                    + // [2] month
   '-([0-9][0-9])$');                   // [3] day
 
-var YAML_TIMESTAMP_REGEXP = new RegExp(
+var YAML_Date_REGEXP = new RegExp(
   '^([0-9][0-9][0-9][0-9])'          + // [1] year
   '-([0-9][0-9]?)'                   + // [2] month
   '-([0-9][0-9]?)'                   + // [3] day
@@ -13716,19 +13716,19 @@ var YAML_TIMESTAMP_REGEXP = new RegExp(
   '(?:[ \\t]*(Z|([-+])([0-9][0-9]?)' + // [8] tz [9] tz_sign [10] tz_hour
   '(?::([0-9][0-9]))?))?$');           // [11] tz_minute
 
-function resolveYamlTimestamp(data) {
+function resolveYamlDate(data) {
   if (data === null) return false;
   if (YAML_DATE_REGEXP.exec(data) !== null) return true;
-  if (YAML_TIMESTAMP_REGEXP.exec(data) !== null) return true;
+  if (YAML_Date_REGEXP.exec(data) !== null) return true;
   return false;
 }
 
-function constructYamlTimestamp(data) {
+function constructYamlDate(data) {
   var match, year, month, day, hour, minute, second, fraction = 0,
       delta = null, tz_hour, tz_minute, date;
 
   match = YAML_DATE_REGEXP.exec(data);
-  if (match === null) match = YAML_TIMESTAMP_REGEXP.exec(data);
+  if (match === null) match = YAML_Date_REGEXP.exec(data);
 
   if (match === null) throw new Error('Date resolve error');
 
@@ -13772,16 +13772,16 @@ function constructYamlTimestamp(data) {
   return date;
 }
 
-function representYamlTimestamp(object /*, style*/) {
+function representYamlDate(object /*, style*/) {
   return object.toISOString();
 }
 
-module.exports = new Type('tag:yaml.org,2002:timestamp', {
+module.exports = new Type('tag:yaml.org,2002:Date', {
   kind: 'scalar',
-  resolve: resolveYamlTimestamp,
-  construct: constructYamlTimestamp,
+  resolve: resolveYamlDate,
+  construct: constructYamlDate,
   instanceOf: Date,
-  represent: representYamlTimestamp
+  represent: representYamlDate
 });
 
 },{"../type":32}],49:[function(require,module,exports){
