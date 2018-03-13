@@ -10,6 +10,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
 	default-autowire="byName">
 
+
 	<!-- 当前spring支持注解 -->
 	<context:annotation-config />
 	<!-- 设置当前项目的根包 -->

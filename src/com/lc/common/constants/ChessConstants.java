@@ -1,5 +1,8 @@
 package com.lc.common.constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChessConstants {
     // 黑桃 B 红桃 R 梅花 P 方块 D
 
@@ -52,5 +55,15 @@ public class ChessConstants {
     public static final int R_A = 142;
     public static final int P_A = 143;
     public static final int D_A = 144;
+    
+    public static List putPock(){
+    	List<Integer> list = new ArrayList<Integer>();
+    	list.add(B_5);list.add(B_6);list.add(B_7);list.add(B_8);list.add(B_9);list.add(B_10);list.add(B_J);list.add(B_Q);list.add(B_K);list.add(B_A);
+    	list.add(R_5);list.add(R_6);list.add(R_7);list.add(R_8);list.add(R_9);list.add(R_10);list.add(R_J);list.add(R_Q);list.add(R_K);list.add(R_A);
+    	list.add(P_5);list.add(P_6);list.add(P_7);list.add(P_8);list.add(P_9);list.add(P_10);list.add(P_J);list.add(P_Q);list.add(P_K);list.add(P_A);
+    	list.add(D_5);list.add(D_6);list.add(D_7);list.add(D_8);list.add(D_9);list.add(D_10);list.add(D_J);list.add(D_Q);list.add(D_K);list.add(D_A);
+    	return list;
+    }
+    
 
 }
