@@ -16,7 +16,7 @@ public class SystemConfig {
 		// 实例化一个PropertiesConfiguration
 
 		try {
-			config = new PropertiesConfiguration("orgs.properties");
+			config = new PropertiesConfiguration("config.properties");
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

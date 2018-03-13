@@ -13,7 +13,7 @@
 		                   http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		                   http://www.springframework.org/schema/tx
 		                   http://www.springframework.org/schema/tx/spring-tx.xsd">
-
+	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
 	<!-- 开启mvc注解 -->
 	<bean
@@ -38,17 +38,16 @@
 	<!-- 扫描controller的位置 -->
 	<context:component-scan base-package="com.lc.hb.controller" />
 	<!-- 声明mvc拦截器 -->
-	<mvc:interceptors>
-		<!-- 系统维护拦截器 -->
+<!-- 	<mvc:interceptors>
+		系统维护拦截器
 		<mvc:interceptor>
 	    	<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/swagger/**" />
 			<mvc:exclude-mapping path="/api-docs/**" />
 			<mvc:exclude-mapping path="/upload/**" />
 	     	<bean class="com.lc.common.interceptor.CommonInterceptor" />
 	  	</mvc:interceptor>
 		
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 
 	<!--文件上传 -->
 	<bean id="multipartResolver"
