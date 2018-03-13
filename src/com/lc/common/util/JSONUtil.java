@@ -27,6 +27,18 @@ public class JSONUtil {
 		JSONObject jsonObject = JSONObject.fromObject(object);
 		return jsonObject.toString();
 	}
+	
+	/**
+     * @Title: packJson
+     * @Description: 打包请求的json
+     * @param request
+     * @return String 返回类型
+     * @throws
+     */
+    public static String packJson2(Object object) throws Exception {
+        JSONArray jsonArray = JSONArray.fromObject(object);
+        return jsonArray.toString();
+    }
 
 	/**
 	 * @Title: parseJson
