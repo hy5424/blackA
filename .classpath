@@ -42,7 +42,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jta.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.7.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.7.jar" sourcepath="C:/Users/dell/AppData/Local/Temp/.org.sf.feeling.decompiler1520904570963/source/junit-4.7-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.0.4-bin.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet-api-2.5.jar"/>
