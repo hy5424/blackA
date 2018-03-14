@@ -85,7 +85,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-common-4.1.1.Final.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-handler-4.1.1.Final.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-resolver-4.1.1.Final.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-socketio-1.7.11.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-socketio-1.7.11.jar" sourcepath="C:/Users/dell/AppData/Local/Temp/.org.sf.feeling.decompiler1520992070187/source/netty-socketio-1.7.11-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-transport-4.1.1.Final.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-transport-native-epoll-4.1.1.Final.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/reactive-streams-1.0.0.jar"/>
