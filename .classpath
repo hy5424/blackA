@@ -70,5 +70,29 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/spring-websocket-4.3.14.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/swagger-models-0.9.5.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/swagger-springmvc-0.9.5.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/annotations-1.3.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ezmorph-1.0.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hazelcast-3.4.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hazelcast-client-3.4.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-core-2.7.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-dataformat-yaml-2.6.5.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jmockit-1.12.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/minimal-json-0.9.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-buffer-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-codec-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-codec-http-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-common-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-handler-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-resolver-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-socketio-1.7.11.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-transport-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-transport-native-epoll-4.1.1.Final.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/reactive-streams-1.0.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/reactor-core-2.0.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/reactor-stream-2.0.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/redisson-2.2.17.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/snakeyaml-1.15.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/zero-allocation-hashing-0.5.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
