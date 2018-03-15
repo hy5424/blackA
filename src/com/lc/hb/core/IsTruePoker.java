@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+/**
+ * 判断出牌是否符合规则
+ * @author wenxin
+ *
+ */
 public class IsTruePoker {
 
     public final static String DANZHANG = "DANZHANG"; // 单牌
