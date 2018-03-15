@@ -15,7 +15,7 @@
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 <!-- 	<listener>
-		<listener-class>lisener.SocketioLisener</listener-class>
+		<listener-class>com.lc.common.lisener.SocketioLisener</listener-class>
 	</listener> -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
