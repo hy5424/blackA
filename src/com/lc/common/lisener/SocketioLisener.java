@@ -22,6 +22,7 @@ import com.lc.hb.core.DealCard;
 import com.lc.hb.core.IsBigger;
 import com.lc.hb.core.IsTruePoker;
 import com.lc.hb.request.MsgRequest;
+import com.lc.hb.response.MsgResponse;
 
 import net.sf.json.JSONObject;
 
@@ -88,14 +89,18 @@ public class SocketioLisener {
                 session.getBasicRemote().sendText(String.valueOf(getOnlineCount())); // 给这个用户发送编号以进行排序
 
                 if (getOnlineCount() == 4) {
-                    Map<String, String> responseMap = new HashMap<String, String>();
+                    MsgResponse msgResponse = new MsgResponse();
+                    msgResponse.setCode("ready");
+
+                    Map<String, Object> responseMap = new HashMap<String, Object>();
                     List<TreeSet<Integer>> deal = DealCard.getPock();
                     Set<String> userIds = webSocketSet.keySet();
 
                     int i = 0;
                     for (String string : userIds) {
                         responseMap.put("msg", deal.get(i).toString());
-                        webSocketSet.get(string).sendMessage(responseMap.toString());
+                        msgResponse.setResponse(responseMap);
+                        webSocketSet.get(string).sendMessage(msgResponse.toString());
                         i++;
                         webSocketSet.remove(this);
                         subOnlineCount();
@@ -105,6 +110,11 @@ public class SocketioLisener {
             }
             // 前端示例 {"code":"play",request:{"last":[51,52,53],"theCards":[61,62,63]}}
             case "play": {
+                MsgResponse msgResponse = new MsgResponse();
+                msgResponse.setCode("play");
+
+                Map<String, Object> responseMap = new HashMap<String, Object>();
+
                 ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
                 ArrayList<Integer> theCardsList = (ArrayList<Integer>) request.get("theCards");// 自己出的牌
 
@@ -116,16 +126,28 @@ public class SocketioLisener {
 
                 // 比较大小
                 boolean flag = IsBigger.IsBiggerThanLast(lastTree, theCardsTree);
-                session.getBasicRemote().sendText(String.valueOf(flag));
+                responseMap.put("msg", flag);
+                msgResponse.setResponse(responseMap);
+
+                session.getBasicRemote().sendText(msgResponse.toString());
 
                 break;
             }
             // 前端示例 {"code":"isTrue",request:{}}
             case "isType": {
+                MsgResponse msgResponse = new MsgResponse();
+                msgResponse.setCode("isType");
+
+                Map<String, Object> responseMap = new HashMap<String, Object>();
+
                 ArrayList<Integer> list = (ArrayList<Integer>) request.get("list");// 自己出的牌
                 TreeSet<Integer> treeSet = new TreeSet<Integer>(list);
                 String type = IsTruePoker.isTruePoker(treeSet);
-                session.getBasicRemote().sendText(type);
+
+                responseMap.put("msg", type);
+                msgResponse.setResponse(responseMap);
+
+                session.getBasicRemote().sendText(msgResponse.toString());
                 break;
             }
             default:
