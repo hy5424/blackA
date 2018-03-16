@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.lc.hb.core.DealCard;
 import com.lc.hb.core.IsBigger;
+import com.lc.hb.core.IsTruePoker;
 import com.lc.hb.request.MsgRequest;
 
 import net.sf.json.JSONObject;
@@ -82,7 +83,8 @@ public class SocketioLisener {
             switch (code) {
             // 前端示例 {"code":"ready",request:{"userId":"1000"}}
             case "ready":
-                webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
+            {
+            	webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
                 addOnlineCount(); // 增加当前在线人数
                 session.getBasicRemote().sendText(String.valueOf(getOnlineCount())); // 给这个用户发送编号以进行排序
 
@@ -99,9 +101,11 @@ public class SocketioLisener {
                     }
                 }
                 break;
+            }
             // 前端示例 {"code":"play",request:{"last":[51,52,53],"theCards":[61,62,63]}}
             case "play":
-                ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
+            {
+            	ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
                 ArrayList<Integer> theCardsList = (ArrayList<Integer>) request.get("theCards");// 自己出的牌
 
                 TreeSet<Integer> lastTree = new TreeSet<Integer>();
@@ -115,6 +119,16 @@ public class SocketioLisener {
                 session.getBasicRemote().sendText(String.valueOf(flag));
 
                 break;
+            }
+            //前端示例 {"code":"isTrue",request:{}}
+            case "isType":
+            {
+            	 ArrayList<Integer> list = (ArrayList<Integer>) request.get("list");// 自己出的牌
+            	 TreeSet<Integer> treeSet = new TreeSet<Integer>(list);
+			     String type = IsTruePoker.isTruePoker(treeSet);
+			     session.getBasicRemote().sendText(type);
+			     break;
+            }
             default:
                 break;
             }
