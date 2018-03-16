@@ -58,9 +58,9 @@ public class SocketioLisener {
      */
     @OnClose
     public void onClose() {
-        webSocketSet.remove(this); // 从set中删除
-        subOnlineCount(); // 在线数减1
-        System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
+        // webSocketSet.remove(this); // 从set中删除
+        // subOnlineCount(); // 在线数减1
+        // System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
     /**
@@ -82,9 +82,8 @@ public class SocketioLisener {
             Map<String, Object> request = msgRequest.getRequest();
             switch (code) {
             // 前端示例 {"code":"ready",request:{"userId":"1000"}}
-            case "ready":
-            {
-            	webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
+            case "ready": {
+                webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
                 addOnlineCount(); // 增加当前在线人数
                 session.getBasicRemote().sendText(String.valueOf(getOnlineCount())); // 给这个用户发送编号以进行排序
 
@@ -98,14 +97,15 @@ public class SocketioLisener {
                         responseMap.put("msg", deal.get(i).toString());
                         webSocketSet.get(string).sendMessage(responseMap.toString());
                         i++;
+                        webSocketSet.remove(this);
+                        subOnlineCount();
                     }
                 }
                 break;
             }
             // 前端示例 {"code":"play",request:{"last":[51,52,53],"theCards":[61,62,63]}}
-            case "play":
-            {
-            	ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
+            case "play": {
+                ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
                 ArrayList<Integer> theCardsList = (ArrayList<Integer>) request.get("theCards");// 自己出的牌
 
                 TreeSet<Integer> lastTree = new TreeSet<Integer>();
@@ -120,14 +120,13 @@ public class SocketioLisener {
 
                 break;
             }
-            //前端示例 {"code":"isTrue",request:{}}
-            case "isType":
-            {
-            	 ArrayList<Integer> list = (ArrayList<Integer>) request.get("list");// 自己出的牌
-            	 TreeSet<Integer> treeSet = new TreeSet<Integer>(list);
-			     String type = IsTruePoker.isTruePoker(treeSet);
-			     session.getBasicRemote().sendText(type);
-			     break;
+            // 前端示例 {"code":"isTrue",request:{}}
+            case "isType": {
+                ArrayList<Integer> list = (ArrayList<Integer>) request.get("list");// 自己出的牌
+                TreeSet<Integer> treeSet = new TreeSet<Integer>(list);
+                String type = IsTruePoker.isTruePoker(treeSet);
+                session.getBasicRemote().sendText(type);
+                break;
             }
             default:
                 break;

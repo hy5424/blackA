@@ -1,1 +1,9 @@
+/WriteClass/
 /com/
+/config.properties
+/entity/
+/log4j.properties
+/server.properties
+/spring-context.xml
+/spring-hibernate.xml
+/spring-mvc.xml
