@@ -3,6 +3,7 @@ package com.lc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * ********************************************************
@@ -12,7 +13,8 @@ import javax.persistence.Entity;
  * @author 用lcy改进版的代码自动生成器
  * @date 2018-03-13 下午 05:16:38
  */
-@Entity(name = "ACCT_ACCOUNT")
+@Entity
+@Table(name = "ACCT_ACCOUNT")
 public class AcctAccount extends BaseIdEntity {
 
     private static final long serialVersionUID = 4446747951077446120L;

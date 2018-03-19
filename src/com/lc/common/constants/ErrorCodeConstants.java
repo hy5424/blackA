@@ -13,6 +13,11 @@ public class ErrorCodeConstants {
     public static final String E0102 = "E0102";
 
     /**
+     * 用户已存在
+     */
+    public static final String E0103 = "E0103";
+
+    /**
      * 系统异常
      */
     public static final String E9999 = "E9999";

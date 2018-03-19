@@ -2,8 +2,10 @@ package com.lc.hb.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,5 +54,49 @@ public class CommonUserService {
 
         String retJson = JSONUtil.packJson(response);
         return retJson;
+    }
+
+    @Transactional
+    public String register(String userName, String password, String sex) throws Exception {
+        // 根据用户名查找用户
+        CommonUser commonUser = commonUserDao.getUserByName(userName);
+        if (commonUser != null) {
+            return MsgResponse.packMsg(ErrorCodeConstants.E0103, "用户名已存在！");
+        }
+
+        CommonUser commonUserNew = new CommonUser();
+        commonUserNew.setId(generateMercId());
+        commonUserNew.setName(userName);
+        commonUserNew.setPwd(password);
+        commonUserNew.setStatus("1");
+        commonUserNew.setSex(Integer.valueOf(sex));
+        commonUserDao.save(commonUserNew);
+
+        MsgResponse response = new MsgResponse();
+        response.setCode(ErrorCodeConstants.SECCESS);
+        response.setMsg("注册成功");
+
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        responseMap.put("userId", String.valueOf(commonUserNew.getId()));
+        responseMap.put("sex", commonUserNew.getSex());
+        responseMap.put("status", commonUserNew.getStatus());
+
+        response.setResponse(responseMap);
+
+        String retJson = JSONUtil.packJson(response);
+        return retJson;
+    }
+
+    /**
+     * @return
+     */
+    public static Long generateMercId() {
+
+        Random rand = new Random();
+        int mr = rand.nextInt(8999) + 1000;
+        long tm = System.currentTimeMillis();
+        // 商编Id
+        Long mercId = tm + mr;
+        return mercId;
     }
 }
