@@ -56,6 +56,14 @@ public class CommonUserService {
         return retJson;
     }
 
+    /**
+     * @Description (注册)
+     * @param userName
+     * @param password
+     * @param sex
+     * @return
+     * @throws Exception
+     */
     @Transactional
     public String register(String userName, String password, String sex) throws Exception {
         // 根据用户名查找用户
