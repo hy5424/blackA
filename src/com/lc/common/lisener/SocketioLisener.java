@@ -155,7 +155,7 @@ public class SocketioLisener {
 
                 break;
             }
-            // 前端示例 {"code":"isType",request:{}}
+            // 前端示例 {"code":"isType",request:{"list":[51,52,53]}}
             case "isType": {
                 MsgResponse msgResponse = new MsgResponse();
                 msgResponse.setCode("isType");
