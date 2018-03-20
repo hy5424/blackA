@@ -18,6 +18,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lc.common.util.JSONUtil;
 import com.lc.hb.core.DealCard;
 import com.lc.hb.core.IsBigger;
 import com.lc.hb.core.IsTruePoker;
@@ -84,23 +85,42 @@ public class SocketioLisener {
             switch (code) {
             // 前端示例 {"code":"ready",request:{"userId":"1000"}}
             case "ready": {
+                // 判断这个用户是否已经加入
+                boolean flag = webSocketSet.containsKey(request.get("userId"));
+                if (flag) {
+                    return;
+                }
                 webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
                 addOnlineCount(); // 增加当前在线人数
-                session.getBasicRemote().sendText(String.valueOf(getOnlineCount())); // 给这个用户发送编号以进行排序
+                // 准备返回数据
+                MsgResponse msgResponseOrder = new MsgResponse();
+                msgResponseOrder.setCode("order");
+
+                Map<String, Object> responseMapOrder = new HashMap<String, Object>();
+                responseMapOrder.put("msg", getOnlineCount());
+
+                msgResponseOrder.setResponse(responseMapOrder);
+                String retJsonOrder = JSONUtil.packJson(msgResponseOrder);
+
+                log.info("返回的数据：" + retJsonOrder);
+
+                session.getBasicRemote().sendText(retJsonOrder); // 给这个用户发送编号以进行排序
 
                 if (getOnlineCount() == 4) {
                     MsgResponse msgResponse = new MsgResponse();
                     msgResponse.setCode("ready");
-
                     Map<String, Object> responseMap = new HashMap<String, Object>();
                     List<TreeSet<Integer>> deal = DealCard.getPock();
                     Set<String> userIds = webSocketSet.keySet();
 
+                    // 给每个人发牌
                     int i = 0;
                     for (String string : userIds) {
                         responseMap.put("msg", deal.get(i).toString());
                         msgResponse.setResponse(responseMap);
-                        webSocketSet.get(string).sendMessage(msgResponse.toString());
+                        String retJson = JSONUtil.packJson(msgResponse);
+                        log.info("返回的数据：" + retJson);
+                        webSocketSet.get(string).sendMessage(retJson);
                         i++;
                         webSocketSet.remove(this);
                         subOnlineCount();
@@ -129,11 +149,13 @@ public class SocketioLisener {
                 responseMap.put("msg", flag);
                 msgResponse.setResponse(responseMap);
 
-                session.getBasicRemote().sendText(msgResponse.toString());
+                String retJson = JSONUtil.packJson(msgResponse);
+                log.info("返回的数据：" + retJson);
+                session.getBasicRemote().sendText(retJson);
 
                 break;
             }
-            // 前端示例 {"code":"isTrue",request:{}}
+            // 前端示例 {"code":"isType",request:{}}
             case "isType": {
                 MsgResponse msgResponse = new MsgResponse();
                 msgResponse.setCode("isType");
@@ -147,7 +169,10 @@ public class SocketioLisener {
                 responseMap.put("msg", type);
                 msgResponse.setResponse(responseMap);
 
-                session.getBasicRemote().sendText(msgResponse.toString());
+                String retJson = JSONUtil.packJson(msgResponse);
+                log.info("返回的数据：" + retJson);
+                session.getBasicRemote().sendText(retJson);
+
                 break;
             }
             default:

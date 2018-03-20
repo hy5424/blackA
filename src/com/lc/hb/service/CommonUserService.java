@@ -37,7 +37,7 @@ public class CommonUserService {
         if (commonUser == null) {
             return MsgResponse.packMsg(ErrorCodeConstants.E0101, "用户名不存在！");
         }
-        if (!password.equals(commonUser.getPwd())) {
+        if (!password.equalsIgnoreCase(commonUser.getPwd())) {
             return MsgResponse.packMsg(ErrorCodeConstants.E0102, "密码不正确！");
         }
 
@@ -65,7 +65,7 @@ public class CommonUserService {
      * @throws Exception
      */
     @Transactional
-    public String register(String userName, String password, String sex) throws Exception {
+    public String register(String userName, String password) throws Exception {
         // 根据用户名查找用户
         CommonUser commonUser = commonUserDao.getUserByName(userName);
         if (commonUser != null) {
@@ -77,7 +77,7 @@ public class CommonUserService {
         commonUserNew.setName(userName);
         commonUserNew.setPwd(password);
         commonUserNew.setStatus("1");
-        commonUserNew.setSex(Integer.valueOf(sex));
+        commonUserNew.setSex(1);
         commonUserDao.save(commonUserNew);
 
         MsgResponse response = new MsgResponse();

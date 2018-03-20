@@ -27,14 +27,14 @@ public class LoginController {
     @ResponseBody
     @RequestMapping(value = "/loginA0100", method = RequestMethod.POST, produces = {"application/json;charset=utf-8" })
     public String login(HttpServletRequest request, @RequestParam(required = true) String loginName,
-            @RequestParam(required = true) String password) {
+            @RequestParam(required = true) String passWord) {
 
         try {
             logger.info("[用户登录] 开始......");
             logger.info("[用户登录] 用户名：" + loginName);
-            logger.info("[用户登录] 密码：" + password);
+            logger.info("[用户登录] 密码：" + passWord);
 
-            String resp = commonUserService.login(loginName, password);
+            String resp = commonUserService.login(loginName, passWord);
 
             logger.info("[用户登录] 返回信息：" + resp);
 

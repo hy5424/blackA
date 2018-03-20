@@ -28,13 +28,13 @@ public class RegisterController {
     @RequestMapping(value = "/registerA0100", method = RequestMethod.POST, produces = {
             "application/json;charset=utf-8" })
     public String register(HttpServletRequest request, @RequestParam(required = true) String loginName,
-            @RequestParam(required = true) String password, @RequestParam(required = true) String sex) {
+            @RequestParam(required = true) String passWord) {
         try {
             logger.info("[用户注册] 开始......");
             logger.info("[用户注册] 用户名：" + loginName);
-            logger.info("[用户注册] 密码：" + password);
+            logger.info("[用户注册] 密码：" + passWord);
 
-            String resp = commonUserService.register(loginName, password, sex);
+            String resp = commonUserService.register(loginName, passWord);
 
             logger.info("[用户注册] 返回信息：" + resp);
 
