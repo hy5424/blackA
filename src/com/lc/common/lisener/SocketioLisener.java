@@ -18,10 +18,12 @@ import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.lc.common.util.JSONUtil;
 import com.lc.hb.core.DealCard;
 import com.lc.hb.core.IsBigger;
 import com.lc.hb.core.IsTruePoker;
 import com.lc.hb.request.MsgRequest;
+import com.lc.hb.response.MsgResponse;
 
 import net.sf.json.JSONObject;
 
@@ -58,9 +60,9 @@ public class SocketioLisener {
      */
     @OnClose
     public void onClose() {
-        webSocketSet.remove(this); // 从set中删除
-        subOnlineCount(); // 在线数减1
-        System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
+        // webSocketSet.remove(this); // 从set中删除
+        // subOnlineCount(); // 在线数减1
+        // System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
     /**
@@ -82,30 +84,58 @@ public class SocketioLisener {
             Map<String, Object> request = msgRequest.getRequest();
             switch (code) {
             // 前端示例 {"code":"ready",request:{"userId":"1000"}}
-            case "ready":
-            {
-            	webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
+            case "ready": {
+                // 判断这个用户是否已经加入
+                boolean flag = webSocketSet.containsKey(request.get("userId"));
+                if (flag) {
+                    return;
+                }
+                webSocketSet.put(request.get("userId").toString(), this); // 客户端准备好后，把用户传过来的msg:用户编号作为用户标识
                 addOnlineCount(); // 增加当前在线人数
-                session.getBasicRemote().sendText(String.valueOf(getOnlineCount())); // 给这个用户发送编号以进行排序
+                // 准备返回数据
+                MsgResponse msgResponseOrder = new MsgResponse();
+                msgResponseOrder.setCode("order");
+
+                Map<String, Object> responseMapOrder = new HashMap<String, Object>();
+                responseMapOrder.put("msg", getOnlineCount());
+
+                msgResponseOrder.setResponse(responseMapOrder);
+                String retJsonOrder = JSONUtil.packJson(msgResponseOrder);
+
+                log.info("返回的数据：" + retJsonOrder);
+
+                session.getBasicRemote().sendText(retJsonOrder); // 给这个用户发送编号以进行排序
 
                 if (getOnlineCount() == 4) {
-                    Map<String, String> responseMap = new HashMap<String, String>();
+                    MsgResponse msgResponse = new MsgResponse();
+                    msgResponse.setCode("ready");
+                    Map<String, Object> responseMap = new HashMap<String, Object>();
                     List<TreeSet<Integer>> deal = DealCard.getPock();
                     Set<String> userIds = webSocketSet.keySet();
 
+                    // 给每个人发牌
                     int i = 0;
                     for (String string : userIds) {
                         responseMap.put("msg", deal.get(i).toString());
-                        webSocketSet.get(string).sendMessage(responseMap.toString());
+                        msgResponse.setResponse(responseMap);
+                        String retJson = JSONUtil.packJson(msgResponse);
+                        log.info("返回的数据：" + retJson);
+                        webSocketSet.get(string).sendMessage(retJson);
                         i++;
+                        webSocketSet.remove(this);
+                        subOnlineCount();
                     }
                 }
                 break;
             }
             // 前端示例 {"code":"play",request:{"last":[51,52,53],"theCards":[61,62,63]}}
-            case "play":
-            {
-            	ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
+            case "play": {
+                MsgResponse msgResponse = new MsgResponse();
+                msgResponse.setCode("play");
+
+                Map<String, Object> responseMap = new HashMap<String, Object>();
+
+                ArrayList<Integer> lastList = (ArrayList<Integer>) request.get("last");// 上级出的牌
                 ArrayList<Integer> theCardsList = (ArrayList<Integer>) request.get("theCards");// 自己出的牌
 
                 TreeSet<Integer> lastTree = new TreeSet<Integer>();
@@ -116,18 +146,34 @@ public class SocketioLisener {
 
                 // 比较大小
                 boolean flag = IsBigger.IsBiggerThanLast(lastTree, theCardsTree);
-                session.getBasicRemote().sendText(String.valueOf(flag));
+                responseMap.put("msg", flag);
+                msgResponse.setResponse(responseMap);
+
+                String retJson = JSONUtil.packJson(msgResponse);
+                log.info("返回的数据：" + retJson);
+                session.getBasicRemote().sendText(retJson);
 
                 break;
             }
-            //前端示例 {"code":"isTrue",request:{}}
-            case "isType":
-            {
-            	 ArrayList<Integer> list = (ArrayList<Integer>) request.get("list");// 自己出的牌
-            	 TreeSet<Integer> treeSet = new TreeSet<Integer>(list);
-			     String type = IsTruePoker.isTruePoker(treeSet);
-			     session.getBasicRemote().sendText(type);
-			     break;
+            // 前端示例 {"code":"isType",request:{"list":[51,52,53]}}
+            case "isType": {
+                MsgResponse msgResponse = new MsgResponse();
+                msgResponse.setCode("isType");
+
+                Map<String, Object> responseMap = new HashMap<String, Object>();
+
+                ArrayList<Integer> list = (ArrayList<Integer>) request.get("list");// 自己出的牌
+                TreeSet<Integer> treeSet = new TreeSet<Integer>(list);
+                String type = IsTruePoker.isTruePoker(treeSet);
+
+                responseMap.put("msg", type);
+                msgResponse.setResponse(responseMap);
+
+                String retJson = JSONUtil.packJson(msgResponse);
+                log.info("返回的数据：" + retJson);
+                session.getBasicRemote().sendText(retJson);
+
+                break;
             }
             default:
                 break;
