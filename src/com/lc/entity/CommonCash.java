@@ -3,6 +3,7 @@ package com.lc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * ********************************************************
@@ -12,7 +13,8 @@ import javax.persistence.Entity;
  * @author 用lcy改进版的代码自动生成器
  * @date 2018-03-13 下午 05:16:55
  */
-@Entity(name = "COMMON_CASH")
+@Entity
+@Table(name = "COMMON_CASH")
 public class CommonCash extends BaseIdEntity {
 
     private static final long serialVersionUID = 4536899909364266709L;

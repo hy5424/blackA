@@ -16,34 +16,33 @@ import com.lc.hb.response.MsgResponse;
 import com.lc.hb.service.CommonUserService;
 
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/register")
+public class RegisterController {
 
-    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     @Resource(name = "commonUserService")
     CommonUserService commonUserService;
 
     @ResponseBody
-    @RequestMapping(value = "/loginA0100", method = RequestMethod.POST, produces = {"application/json;charset=utf-8" })
-    public String login(HttpServletRequest request, @RequestParam(required = true) String loginName,
+    @RequestMapping(value = "/registerA0100", method = RequestMethod.POST, produces = {
+            "application/json;charset=utf-8" })
+    public String register(HttpServletRequest request, @RequestParam(required = true) String loginName,
             @RequestParam(required = true) String passWord) {
-
         try {
-            logger.info("[用户登录] 开始......");
-            logger.info("[用户登录] 用户名：" + loginName);
-            logger.info("[用户登录] 密码：" + passWord);
+            logger.info("[用户注册] 开始......");
+            logger.info("[用户注册] 用户名：" + loginName);
+            logger.info("[用户注册] 密码：" + passWord);
 
-            String resp = commonUserService.login(loginName, passWord);
+            String resp = commonUserService.register(loginName, passWord);
 
-            logger.info("[用户登录] 返回信息：" + resp);
+            logger.info("[用户注册] 返回信息：" + resp);
 
             return resp;
         } catch (Exception e) {
-            logger.error("登录异常：", e);
-            return MsgResponse.packMsg(ErrorCodeConstants.E9999, "登录异常！");
+            logger.error("注册异常：", e);
+            return MsgResponse.packMsg(ErrorCodeConstants.E9999, "注册异常！");
         }
-
     }
 
 }

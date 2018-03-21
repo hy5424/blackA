@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * ********************************************************
@@ -14,7 +15,8 @@ import javax.persistence.Entity;
  * @author 用lcy改进版的代码自动生成器
  * @date 2018-03-13 下午 05:36:59
  */
-@Entity(name = "COMMON_USER")
+@Entity
+@Table(name = "COMMON_USER")
 public class CommonUser extends BaseIdEntity {
 
     private static final long serialVersionUID = -257763960345631455L;
